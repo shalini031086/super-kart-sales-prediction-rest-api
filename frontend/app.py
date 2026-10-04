@@ -4,7 +4,7 @@ import pandas as pd
 import requests
 
 # Backend URL
-BACKEND_URL = "http://localhost:7860"
+BACKEND_URL = "http://backend:7860"
 
 st.title("SuperKart Sales Prediction")
 
