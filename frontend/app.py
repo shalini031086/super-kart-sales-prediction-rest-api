@@ -1,12 +1,21 @@
 
 import streamlit as st
-import pandas as pd
 import requests
 
 # Backend URL
 BACKEND_URL = "http://backend:7860"
 
-st.title("SuperKart Sales Prediction")
+st.set_page_config(
+    page_title="SuperKart Sales Prediction",
+    page_icon="📊",
+    layout="centered"
+)
+
+st.title("📊 SuperKart Sales Prediction")
+
+# ==========================================
+# Online Prediction
+# ==========================================
 
 st.subheader("Online Prediction")
 
@@ -106,10 +115,10 @@ input_data = {
 if st.button("Predict"):
 
     try:
-
         response = requests.post(
             f"{BACKEND_URL}/v1/superkart",
-            json=input_data
+            json=input_data,
+            timeout=30
         )
 
         if response.status_code == 200:
@@ -123,10 +132,17 @@ if st.button("Predict"):
             )
 
         else:
-            st.error(response.text)
+            st.error(
+                f"Backend Error ({response.status_code}): "
+                f"{response.text}"
+            )
 
     except Exception as e:
-        st.error(str(e))
+        st.error(f"Connection Error: {str(e)}")
+
+# ==========================================
+# Batch Prediction
+# ==========================================
 
 st.subheader("Batch Prediction")
 
@@ -139,23 +155,35 @@ if uploaded_file is not None:
 
     if st.button("Predict Batch"):
 
-        files = {
-            "file": uploaded_file
-        }
+        try:
 
-        response = requests.post(
-            f"{BACKEND_URL}/v1/superkartbatch",
-            files=files
-        )
+            files = {
+                "file": uploaded_file
+            }
 
-        if response.status_code == 200:
+            response = requests.post(
+                f"{BACKEND_URL}/v1/superkartbatch",
+                files=files,
+                timeout=60
+            )
 
-            predictions = response.json()
+            if response.status_code == 200:
 
-            st.success("Batch Prediction Completed")
+                predictions = response.json()
 
-            st.write(predictions)
+                st.success("✅ Batch Prediction Completed")
 
-        else:
+                st.write(predictions)
 
-            st.error(response.text)
+            else:
+
+                st.error(
+                    f"Backend Error ({response.status_code}): "
+                    f"{response.text}"
+                )
+
+        except Exception as e:
+
+            st.error(
+                f"Connection Error: {str(e)}"
+            )
