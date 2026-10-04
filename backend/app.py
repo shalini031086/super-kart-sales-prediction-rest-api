@@ -13,7 +13,7 @@ super_kart_predictor_api = Flask("SuperKart Sales Predictor")
 # Load Model
 # ===============================================
 
-MODEL_PATH = "/content/backend_files/super_kart_model_v2_0.joblib"
+MODEL_PATH = "super_kart_model_v2_0.joblib"
 
 try:
     model = joblib.load(MODEL_PATH)
