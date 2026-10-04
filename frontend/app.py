@@ -4,7 +4,7 @@ import pandas as pd
 import requests
 
 # Backend URL
-BACKEND_URL = "http://backend:7860"
+BACKEND_URL = "http://localhost:7860"
 
 st.title("SuperKart Sales Prediction")
 
@@ -31,7 +31,7 @@ Store_Type = st.selectbox(
     "Store Type",
     [
         "Food Mart",
-        "Departmental Store"
+        "Departmental Store",
         "Supermarket Type1",
         "Supermarket Type2",
         "Supermarket Type3"
@@ -57,7 +57,7 @@ Product_Type_Category = st.selectbox(
         "Others",
         "Seafood",
         "Starchy Foods",
-        "Perishables"
+        "Perishables",
         "Non Perishables"
     ]
 )
